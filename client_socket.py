@@ -69,6 +69,6 @@ if __name__ == "__main__":
                         if not bytes_read:
                             break
                         client.sendall(bytes_read)
-                    time.sleep(0.001)
-                logging.debug(f'removing {file_path}')                    
-                file_path.unlink()
+             time.sleep(0.1)
+             logging.debug(f'removing {file_path}')                    
+             file_path.unlink()
