@@ -1,0 +1,14 @@
+[Unit]
+Description=python server socket listener
+
+[Service]
+Type=exec
+User=root
+Group=root
+ExecStart=/usr/local/sbin/server_socket.py --systemd
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
