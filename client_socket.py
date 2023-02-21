@@ -70,6 +70,8 @@ if __name__ == '__main__':
                             break
                         client.sendall(bytes_read)
   
-             time.sleep(0.1)
-             logging.debug(f'removing {file_path}')                    
-             file_path.unlink()
+                 logging.debug(f'removing {file_path}')                    
+                 file_path.unlink()
+            
+            logger.debug('transfer complete')
+            time.sleep(0.1)
