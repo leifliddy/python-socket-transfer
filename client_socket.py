@@ -28,7 +28,7 @@ if __name__ == "__main__":
     parser.add_argument('--port',
                         action='store',
                         default=port,
-                        help=f'specify port number to listen on, default: {port}')
+                        help=f'specify the remote port number, default: {port}')
     parser.add_argument('--ip',
                         action='store',
                         default=ip,
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser.add_argument('--txdir',
                         action='store',
                         default=tx_dir,
-                        help=f'specify the receive directory, default: {tx_dir}')
+                        help=f'specify the transmit directory, default: {tx_dir}')
 
     args = parser.parse_args()
     logger = logging.getLogger()
