@@ -14,7 +14,7 @@ buffer_size = 1024
 tx_dir      = '/home/leif.liddy/Desktop/socket.project/files.tx'
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--debug',
