@@ -100,7 +100,7 @@ if __name__ == '__main__':
         try:
             asyncio.run(run_server())
         except Exception as e:
-            logging.info(e)
+            logging.error(e)
             logging.debug('sleeping 10 seconds')
             time.sleep(10)
             logging.debug('resuming')
