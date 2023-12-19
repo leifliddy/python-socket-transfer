@@ -6,7 +6,6 @@ import logging
 import pathlib
 import socket
 import time
-from datetime import datetime
 from systemd import journal
 
 ip          = socket.gethostbyname(socket.gethostname())
