@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import argparse
 import logging
@@ -9,7 +9,7 @@ from pathlib import Path, PurePath
  
  
 ip          = socket.gethostbyname(socket.gethostname())
-port        = 4455
+port        = 7000
 buffer_size = 1024
 tx_dir      = '/home/leif.liddy/Desktop/socket.project/files.tx'
 
