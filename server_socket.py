@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import argparse
 import asyncio
@@ -9,7 +9,7 @@ import time
 from systemd import journal
 
 ip          = socket.gethostbyname(socket.gethostname())
-port        = 4455
+port        = 7000
 buffer_size = 1024
 rx_dir      = '/home/leif.liddy/Desktop/socket.project/files.rx'
 
