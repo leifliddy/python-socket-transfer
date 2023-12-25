@@ -3,55 +3,16 @@
 import argparse
 import logging
 import socket
-import sys
 import time
+import sys
 from pathlib import Path, PurePath
-
-ip          = '192.168.3.50'
+ 
+ 
+ip          = socket.gethostbyname(socket.gethostname())
 port        = 7000
 buffer_size = 1024
-tx_dir      = '/tmp/files.tx'
+tx_dir      = '/home/leif.liddy/Desktop/socket.project/files.tx'
 
-
-def set_keepalive(sock, after_idle_sec=60, interval_sec=60, max_fails=10):
-    """ Set TCP keepalive on an open socket
-    It activates after after_idle_sec of idleness,
-    then sends a keepalive ping once every interval_sec,
-    and closes the connection after max_fails failed ping ()
-    """
-    logging.debug(f'set_keepalive')
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPIDLE, after_idle_sec)
-    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPINTVL, interval_sec)
-    sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_KEEPCNT, max_fails)
-
-
-def create_socket():
-    logging.debug(f'create_socket')
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.setsockopt(socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1)
-    client.connect((ip, port))
-    return client
-
-
-def send_files(client):
-    logging.debug(f'send_files')
-    for file_path in sorted(base_dir.iterdir()):
-        if file_path.is_file() and file_path.suffix == '.txt':
-            with open(file_path, 'rb') as f:
-                logging.info(f'transferring {file_path}')
-                while True:
-                    bytes_read = f.read(buffer_size)
-                    if not bytes_read:
-                        break
-                    client.sendall(bytes_read)
-
-                file_path.unlink()
-
-            logger.debug('transfer complete')
-            time.sleep(0.1)
-        else:
-            set_keepalive(client)
 
 if __name__ == '__main__':
 
@@ -90,24 +51,27 @@ if __name__ == '__main__':
         logger.setLevel(logging.DEBUG)
     else:
         logger.setLevel(logging.INFO)
-
+            
     base_dir = Path(tx_dir)
 
     if not base_dir.is_dir():
         logger.info(f'the tx_dir {base_dir} does not exist')
         sys.exit(1)
-
-    client = create_socket()
-
-    while True:
-        try:
-            send_files(client)
-            time.sleep(60)
-        except Exception as e:
-            logging.error(e)
-            logging.debug('sleeping 10 seconds')
-            time.sleep(10)
-            logging.debug('resuming')
-            client.close()
-            create_socket()
-            pass
+        
+    for file_path in sorted(base_dir.iterdir()):
+        if file_path.is_file() and file_path.suffix == '.txt':
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
+                client.connect((ip, port))
+                with open(file_path, 'rb') as f:
+                    logging.info(f'transferring {file_path}')
+                    while True:
+                        bytes_read = f.read(buffer_size)
+                        if not bytes_read:
+                            break
+                        client.sendall(bytes_read)
+  
+                 logging.debug(f'removing {file_path}')                    
+                 file_path.unlink()
+            
+            logger.debug('transfer complete')
+            time.sleep(0.1)
